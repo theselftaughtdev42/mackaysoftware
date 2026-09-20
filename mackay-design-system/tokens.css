@@ -1,0 +1,57 @@
+/* Generated from tokens.json — edit tokens.json, then regenerate. */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+:root {
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-8: 32px;
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+}
+
+:root, [data-theme="light"] {
+  --paper: #FFFFFF;
+  --paper-sunken: #F4F4F2;
+  --line: #E2E2DF;
+  --ink: #111111;
+  --ink-muted: #6B6B68;
+  --signal: #C8341B;
+  --signal-soft: #FBEAE6;
+  --on-signal: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111111;
+    --paper-sunken: #1B1B1A;
+    --line: #333331;
+    --ink: #F2F2F0;
+    --ink-muted: #9A9A96;
+    --signal: #FF7A5C;
+    --signal-soft: #3A1710;
+    --on-signal: #111111;
+  }
+}
+
+[data-theme="dark"] {
+  --paper: #111111;
+  --paper-sunken: #1B1B1A;
+  --line: #333331;
+  --ink: #F2F2F0;
+  --ink-muted: #9A9A96;
+  --signal: #FF7A5C;
+  --signal-soft: #3A1710;
+  --on-signal: #111111;
+}
+
+.t-wordmark { font-family: var(--font-mono); font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+.t-display { font-family: var(--font-mono); font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -0.02em; }
+.t-heading { font-family: var(--font-mono); font-size: 17px; line-height: 24px; font-weight: 600; }
+.t-body { font-family: var(--font-mono); font-size: 13px; line-height: 20px; font-weight: 400; }
+.t-small { font-family: var(--font-mono); font-size: 11px; line-height: 16px; font-weight: 400; }
+.t-label { font-family: var(--font-mono); font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+.t-figure { font-family: var(--font-mono); font-size: 13px; line-height: 20px; font-weight: 400; }
+.t-total { font-family: var(--font-mono); font-size: 24px; line-height: 32px; font-weight: 700; }

@@ -1,0 +1,113 @@
+{
+  "site": {
+    "lang": "en-GB",
+    "title": "Mackay Software — software for defence and government",
+    "description": "Mackay Software Limited. Building software for UK defence and central government.",
+    "themeColor": { "light": "#FFFFFF", "dark": "#111111" }
+  },
+
+  "since": {
+    "software": "2018-08"
+  },
+
+  "brand": {
+    "name": "Mackay Software",
+    "home": "/",
+    "mark": "logos/ms-mark.svg",
+    "lockup": "logos/ms-lockup.svg",
+    "lockupDark": "logos/ms-lockup-dark.svg",
+    "lockupWidth": 405,
+    "lockupHeight": 44
+  },
+
+  "hero": {
+    "badge": "Full Stack Python",
+    "title": ["Software for defence", "and government."],
+    "lede": "Building software for defence and government since {{since.software}}.",
+    "actions": [
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/theselftaughtdev", "rel": "me" },
+      { "label": "tim@mackaysoftware.com", "href": "mailto:tim@mackaysoftware.com" },
+      { "label": "GitHub", "href": "https://github.com/theselftaughtdev42", "rel": "me" }
+    ]
+  },
+
+  "sections": [
+    {
+      "type": "services",
+      "id": "services",
+      "label": "Services",
+      "items": [
+        {
+          "heading": "AI",
+          "body": "From AI-accelerated software development to AI-powered applications"
+        },
+        {
+          "heading": "Data and analytics pipelines",
+          "body": "Pipelines that move, process and surface the data you need to make critical decisions"
+        },
+        {
+          "heading": "APIs and full-stack applications",
+          "body": "Services and interfaces. From a prototype to a deployed application with CI, monitoring and a release process"
+        },
+        {
+          "heading": "Engineering foundations",
+          "body": "The work that keeps a codebase healthy: testing, dependency management, static analysis, security remediation, documentation"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "id": "technologies",
+      "label": "Technologies",
+      "items": [
+        "Git",
+        "CI/CD",
+        "CSS",
+        "Claude Code",
+        "Codex",
+        "Cursor",
+        "Docker",
+        "Elasticsearch",
+        "FastAPI",
+        "Flask",
+        "GitHub",
+        "GitLab",
+        "HTML",
+        "JavaScript",
+        "MkDocs",
+        "MinIO",
+        "MySQL",
+        "Node.js",
+        "PostgreSQL",
+        "Pre-commit",
+        "Pydantic",
+        "Pytest",
+        "Python",
+        "React",
+        "SQL",
+        "Typer",
+        "TypeScript",
+        "VS Code"
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact",
+      "label": "Contact",
+      "lede": "Get in touch",
+      "email": "tim@mackaysoftware.com",
+      "links": [
+        { "label": "LinkedIn", "href": "https://www.linkedin.com/in/theselftaughtdev", "rel": "me" },
+        { "label": "GitHub", "href": "https://github.com/theselftaughtdev42", "rel": "me" },
+        { "label": "theselftaughtdev.io", "href": "https://theselftaughtdev.io", "rel": "me" }
+      ],
+      "note": "Remote, UK — Bristol-based, on site where it suits."
+    }
+  ],
+
+  "footer": {
+    "name": "Mackay Software Limited",
+    "registration": "Registered in England and Wales",
+    "companyNumber": "15289765"
+  }
+}
