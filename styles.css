@@ -18,6 +18,7 @@
   --web-mail: clamp(18px, 3.4vw, 30px);
   --web-label: clamp(12px, 1.3vw, 13px);
   --web-small: clamp(13px, 1.4vw, 15px);
+  --web-foot: clamp(12px, 1.2vw, 13px);
 }
 
 /* tokens.css sets .t-label and .t-small to 11px for print. Everything that
@@ -223,23 +224,21 @@ a { color: inherit; }
 
 .service-p { color: var(--ink-muted); }
 
-/* ── Technologies: one sorted run, separated by middots ── */
+/* ── Technologies: one sorted run, separated by space ──── */
 
+/* The column gap is the separator. A middot reads well mid-line but dangles at
+   the end of a wrapped one, and which item lands there depends on the width,
+   the font and the item count — space never has that problem. */
 .tags {
   margin-top: var(--space-4);
   padding: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  column-gap: var(--space-8);
+  row-gap: var(--space-2);
   max-width: var(--measure);
   color: var(--ink-muted);
-}
-
-.tags li:not(:last-child)::after {
-  content: '·';
-  margin-left: var(--space-2);
-  color: var(--line);
 }
 
 /* ── Facts: invoice-style label / value pairs ───────────── */
@@ -302,7 +301,14 @@ a { color: inherit; }
 
 /* ── Footer ─────────────────────────────────────────────── */
 
-.site-foot { border-top: var(--rule); color: var(--ink-muted); }
+/* A notch under .t-small: the registration line is reference, not reading.
+   Its own size rather than a smaller --web-small, which the technologies
+   run also carries. */
+.site-foot {
+  border-top: var(--rule);
+  color: var(--ink-muted);
+  font-size: var(--web-foot);
+}
 
 .foot-wrap {
   padding-block: var(--space-4) var(--space-8);
@@ -314,15 +320,26 @@ a { color: inherit; }
 
 /* ── Print: light theme, 20mm margins ───────────────────── */
 
+/* The page is dark on screen, so paper gets the light token set back —
+   the dark muted greys would print at about 3:1 on white. */
 @media print {
   @page { margin: 20mm; }
-  :root { color-scheme: light; }
-  body { background: #FFFFFF; color: #111111; }
+
+  :root, :root[data-theme] {
+    color-scheme: light;
+    --paper: #FFFFFF;
+    --paper-sunken: #FFFFFF;
+    --line: #E2E2DF;
+    --ink: #111111;
+    --ink-muted: #6B6B68;
+    --signal: #C8341B;
+    --signal-soft: #FBEAE6;
+  }
+
+  body { background: var(--paper); color: var(--ink); }
   .wrap { max-width: none; padding-inline: 0; }
   .site-nav, .skip { display: none; }
-  .contact { background: none; }
   .hero .wrap { padding-block: var(--space-8); }
-  .action, .contact-mail a { border-bottom-color: #E2E2DF; }
 }
 
 @media (prefers-reduced-motion: reduce) {

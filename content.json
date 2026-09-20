@@ -1,13 +1,10 @@
 {
   "site": {
     "lang": "en-GB",
+    "theme": "dark",
     "title": "Mackay Software — software for defence and government",
-    "description": "Mackay Software Limited. Building software for UK defence and central government.",
+    "description": "Mackay Software Limited. Building software for UK defence and government.",
     "themeColor": { "light": "#FFFFFF", "dark": "#111111" }
-  },
-
-  "since": {
-    "software": "2018-08"
   },
 
   "brand": {
@@ -23,7 +20,8 @@
   "hero": {
     "badge": "Full Stack Python",
     "title": ["Software for defence", "and government."],
-    "lede": "Building software for defence and government since {{since.software}}.",
+    "lede": "Building software for UK defence and government since 2018.",
+    "note": "Remote/Hybrid, UK — Bristol-based",
     "actions": [
       { "label": "LinkedIn", "href": "https://www.linkedin.com/in/theselftaughtdev", "rel": "me" },
       { "label": "tim@mackaysoftware.com", "href": "mailto:tim@mackaysoftware.com" },
@@ -89,19 +87,6 @@
         "TypeScript",
         "VS Code"
       ]
-    },
-    {
-      "type": "contact",
-      "id": "contact",
-      "label": "Contact",
-      "lede": "Get in touch",
-      "email": "tim@mackaysoftware.com",
-      "links": [
-        { "label": "LinkedIn", "href": "https://www.linkedin.com/in/theselftaughtdev", "rel": "me" },
-        { "label": "GitHub", "href": "https://github.com/theselftaughtdev42", "rel": "me" },
-        { "label": "theselftaughtdev.io", "href": "https://theselftaughtdev.io", "rel": "me" }
-      ],
-      "note": "Remote, UK — Bristol-based, on site where it suits."
     }
   ],
 

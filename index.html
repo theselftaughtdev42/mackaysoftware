@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mackay Software — software for defence and government</title>
-<meta name="description" content="Mackay Software Limited. Building software for UK defence and central government.">
+<meta name="description" content="Mackay Software Limited. Building software for UK defence and government.">
 <link rel="icon" href="logos/ms-mark.svg" type="image/svg+xml">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#111111">
 <link rel="stylesheet" href="mackay-design-system/tokens.css">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,15 +20,11 @@
 <header class="site-head">
   <div class="wrap head-wrap">
     <a class="lockup" href="/" aria-label="Mackay Software — home">
-      <picture>
-        <source srcset="logos/ms-lockup-dark.svg" media="(prefers-color-scheme: dark)">
-        <img src="logos/ms-lockup.svg" alt="Mackay Software" width="405" height="44">
-      </picture>
+      <img src="logos/ms-lockup-dark.svg" alt="Mackay Software" width="405" height="44">
     </a>
     <nav class="site-nav t-label" aria-label="Sections">
       <a href="#services">Services</a>
       <a href="#technologies">Technologies</a>
-      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -39,13 +35,14 @@
     <div class="wrap">
       <p class="badge t-label">Full Stack Python</p>
       <h1 class="hero-title">Software for defence<br>and government.</h1>
-      <p class="hero-lede">Building software for defence and government since <span data-live="{{since.software}}">2018</span>.</p>
+      <p class="hero-lede">Building software for UK defence and government since 2018.</p>
+      <p class="hero-note">Remote/Hybrid, UK — Bristol-based</p>
       <p class="hero-actions">
-        <a class="action" href="https://www.linkedin.com/in/theselftaughtdev" rel="me">LinkedIn</a>
+        <a class="action" href="https://www.linkedin.com/in/theselftaughtdev" target="_blank" rel="me noopener">LinkedIn</a>
         <span class="sep" aria-hidden="true">·</span>
         <a class="action" href="mailto:tim@mackaysoftware.com">tim@mackaysoftware.com</a>
         <span class="sep" aria-hidden="true">·</span>
-        <a class="action" href="https://github.com/theselftaughtdev42" rel="me">GitHub</a>
+        <a class="action" href="https://github.com/theselftaughtdev42" target="_blank" rel="me noopener">GitHub</a>
       </p>
     </div>
   </section>
@@ -118,22 +115,6 @@
     </div>
   </section>
 
-  <section class="band contact" id="contact" aria-labelledby="contact-h">
-    <div class="wrap band-grid">
-      <h2 class="band-label t-label" id="contact-h">Contact</h2>
-      <div class="band-body">
-        <p class="contact-lede">Get in touch</p>
-        <p class="contact-mail"><a href="mailto:tim@mackaysoftware.com">tim@mackaysoftware.com</a></p>
-        <p class="contact-links t-small">
-          <a href="https://www.linkedin.com/in/theselftaughtdev" rel="me">LinkedIn</a>
-          <a href="https://github.com/theselftaughtdev42" rel="me">GitHub</a>
-          <a href="https://theselftaughtdev.io" rel="me">theselftaughtdev.io</a>
-        </p>
-        <p class="contact-note t-small">Remote, UK — Bristol-based, on site where it suits.</p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site-foot t-small">
@@ -145,7 +126,7 @@
 
 <script>
 (() => {
-  const since = {"software":"2018-08"};
+  const since = {};
   const ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
   const TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
   const fail = (message) => { throw new Error(message); };

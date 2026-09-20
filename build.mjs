@@ -70,11 +70,20 @@ const live = (template, name) =>
 /** Alphabetical, case-insensitive, so the list never depends on entry order. */
 const alphabetical = (items) => [...items].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-/** rel="…" only when the link asks for one. */
-const relAttr = (link) => (link.rel ? ` rel="${attr(link.rel)}"` : '');
+/** Anything that leaves the site. mailto: and #anchors stay in this tab. */
+const external = (href) => /^https?:\/\//i.test(String(href));
+
+/** target/rel for one link: a new tab for off-site links, `noopener` with it so
+    the opened page can't reach back through window.opener, and whatever rel the
+    link asked for kept alongside. */
+const linkAttrs = (link) => {
+  const away = external(link.href);
+  const rel = [link.rel, away && 'noopener'].filter(Boolean).join(' ');
+  return `${away ? ' target="_blank"' : ''}${rel ? ` rel="${attr(rel)}"` : ''}`;
+};
 
 const anchor = (link, className) =>
-  `<a${className ? ` class="${className}"` : ''} href="${attr(link.href)}"${relAttr(link)}>${esc(link.label)}</a>`;
+  `<a${className ? ` class="${className}"` : ''} href="${attr(link.href)}"${linkAttrs(link)}>${esc(link.label)}</a>`;
 
 /* ── dates ──────────────────────────────────────────────── */
 
@@ -144,6 +153,20 @@ function renderRuntime(since) {
 
 /* ── parts ──────────────────────────────────────────────── */
 
+/** A pinned theme ships one colour and tells the browser's own UI — scrollbars,
+    form controls, the address bar — to match it. A site that follows the OS
+    ships both and lets the media queries pick. */
+const themeMeta = ({ theme, themeColor }) =>
+  theme
+    ? [
+        `<meta name="color-scheme" content="${attr(theme)}">`,
+        `<meta name="theme-color" content="${attr(themeColor[theme])}">`,
+      ]
+    : [
+        `<meta name="theme-color" content="${attr(themeColor.light)}" media="(prefers-color-scheme: light)">`,
+        `<meta name="theme-color" content="${attr(themeColor.dark)}" media="(prefers-color-scheme: dark)">`,
+      ];
+
 function renderHead({ site, brand }) {
   return lines(
     `<meta charset="utf-8">`,
@@ -151,14 +174,29 @@ function renderHead({ site, brand }) {
     `<title${live(site.title)}>${attr(site.title)}</title>`,
     `<meta name="description" content="${attr(site.description)}"${live(site.description, 'content')}>`,
     `<link rel="icon" href="${attr(brand.mark)}" type="image/svg+xml">`,
-    `<meta name="theme-color" content="${attr(site.themeColor.light)}" media="(prefers-color-scheme: light)">`,
-    `<meta name="theme-color" content="${attr(site.themeColor.dark)}" media="(prefers-color-scheme: dark)">`,
+    ...themeMeta(site),
     `<link rel="stylesheet" href="mackay-design-system/tokens.css">`,
     `<link rel="stylesheet" href="styles.css">`
   );
 }
 
-function renderHeader({ brand, sections }) {
+/** The lockup comes in a light and a dark cut. A pinned theme knows which one
+    it needs; an OS-following page hands the browser both. */
+function lockup({ site, brand }) {
+  const img = (src) =>
+    `<img src="${attr(src)}" alt="${attr(brand.name)}" width="${attr(brand.lockupWidth)}" height="${attr(brand.lockupHeight)}">`;
+
+  if (site.theme) return img(site.theme === 'dark' ? brand.lockupDark : brand.lockup);
+
+  return lines(
+    `<picture>`,
+    `  <source srcset="${attr(brand.lockupDark)}" media="(prefers-color-scheme: dark)">`,
+    `  ${img(brand.lockup)}`,
+    `</picture>`
+  );
+}
+
+function renderHeader({ site, brand, sections }) {
   const nav = sections
     .filter((section) => section.id && section.label && section.nav !== false)
     .map((section) => `<a href="#${attr(section.id)}">${esc(section.label)}</a>`)
@@ -168,10 +206,7 @@ function renderHeader({ brand, sections }) {
     `<header class="site-head">`,
     `  <div class="wrap head-wrap">`,
     `    <a class="lockup" href="${attr(brand.home)}" aria-label="${attr(brand.name)} — home">`,
-    `      <picture>`,
-    `        <source srcset="${attr(brand.lockupDark)}" media="(prefers-color-scheme: dark)">`,
-    `        <img src="${attr(brand.lockup)}" alt="${attr(brand.name)}" width="${attr(brand.lockupWidth)}" height="${attr(brand.lockupHeight)}">`,
-    `      </picture>`,
+    ind(lockup({ site, brand }), 6),
     `    </a>`,
     nav && `    <nav class="site-nav t-label" aria-label="Sections">\n${ind(nav, 6)}\n    </nav>`,
     `  </div>`,
@@ -322,7 +357,7 @@ function renderPage(content) {
 
   return lines(
     `<!doctype html>`,
-    `<html lang="${attr(site.lang)}">`,
+    `<html lang="${attr(site.lang)}"${site.theme ? ` data-theme="${attr(site.theme)}"` : ''}>`,
     `<head>`,
     ind(renderHead(content), 0),
     `</head>`,
@@ -357,6 +392,10 @@ const content = JSON.parse(await readFile(join(root, SOURCE), 'utf8'));
 
 for (const key of ['site', 'brand', 'hero', 'sections', 'footer']) {
   if (!content[key]) fail(`${SOURCE} is missing "${key}"`);
+}
+
+if (content.site.theme && !['light', 'dark'].includes(content.site.theme)) {
+  fail(`site.theme must be "light", "dark", or absent to follow the OS — got "${content.site.theme}"`);
 }
 
 TOKENS = tokensFor(content.since);
