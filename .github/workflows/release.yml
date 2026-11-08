@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags: ['[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Package
+        run: |
+          make package VERSION="$TAG"
+          cp "mackaysoftware-$TAG.tar.gz" mackaysoftware.tar.gz
+          shasum -a 256 "mackaysoftware-$TAG.tar.gz" mackaysoftware.tar.gz > SHA256SUMS
+        env:
+          TAG: ${{ github.ref_name }}
+
+      # Re-running the workflow replaces the assets rather than failing.
+      - name: Publish GitHub Release
+        run: |
+          assets="mackaysoftware-$TAG.tar.gz mackaysoftware.tar.gz SHA256SUMS"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" $assets --clobber
+          else
+            gh release create "$TAG" $assets --verify-tag --title "$TAG" --generate-notes
+          fi
+        env:
+          TAG: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
