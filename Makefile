@@ -1,4 +1,4 @@
-.PHONY: help build dist package serve clean
+.PHONY: help build dist package release serve clean check-clean
 
 DIST    := dist
 VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
@@ -15,12 +15,22 @@ dist: build ## Copy only the files the site needs into dist/
 	mkdir -p $(DIST)
 	rsync -aR $(FILES) $(DIST)/
 
-package: dist ## Zip dist/ into a versioned tarball
+package: check-clean dist ## Zip dist/ into a versioned tarball (needs a clean tree)
 	tar -czf mackaysoftware-$(VERSION).tar.gz -C $(DIST) .
 	@echo "mackaysoftware-$(VERSION).tar.gz"
+
+# Tags HEAD with today's date (YYYY.MM.DD), adding .2, .3… for repeat releases that day.
+release: check-clean ## Tag HEAD with a date version, then package it
+	@base=$$(date +%Y.%m.%d); tag=$$base; n=1; \
+	while git rev-parse -q --verify "refs/tags/$$tag" >/dev/null; do n=$$((n+1)); tag=$$base.$$n; done; \
+	git tag -a "$$tag" -m "Release $$tag" && echo "tagged $$tag"
+	@$(MAKE) --no-print-directory package
 
 serve: dist ## Serve dist/ on http://localhost:8000
 	python3 -m http.server 8000 -d $(DIST)
 
 clean:   ## Remove build output
 	rm -rf $(DIST) mackaysoftware-*.tar.gz
+
+check-clean:
+	@git diff-index --quiet HEAD -- || { echo "Uncommitted changes. Commit or stash them first." >&2; exit 1; }
