@@ -1,9 +1,6 @@
-.PHONY: help build dist package release serve clean check-clean
+.PHONY: help build dist release serve clean check-clean
 
 DIST    := dist
-# Newest tag on HEAD if there is one, otherwise the short commit hash.
-VERSION ?= $(shell t=$$(git tag --points-at HEAD --sort=-v:refname | head -1); [ -n "$$t" ] && echo $$t || git rev-parse --short HEAD)
-TARBALL  = mackaysoftware-$(VERSION).tar.gz
 FILES   := index.html styles.css logos mackay-design-system/tokens.css
 
 help:    ## List commands
@@ -17,14 +14,9 @@ dist: build ## Copy only the files the site needs into dist/
 	mkdir -p $(DIST)
 	rsync -aR $(FILES) $(DIST)/
 
-package: check-clean dist ## Zip dist/ into a versioned tarball plus SHA256SUMS
-	tar -czf $(TARBALL) -C $(DIST) .
-	shasum -a 256 $(TARBALL) > SHA256SUMS
-	@echo "$(TARBALL)"
-
 # Tags HEAD with today's date (YYYY.MM.DD; .2, .3… for repeats that day) and pushes
-# the tag. CI (.github/workflows/release.yml) builds and publishes the release.
-release: check-clean ## Tag HEAD with a date version and push it to trigger a CI release
+# the tag. CI (.github/workflows/docker.yml) builds and publishes the image.
+release: check-clean ## Tag HEAD with a date version and push it to publish an image from CI
 	@set -e; \
 	tag=$$(git tag --points-at HEAD --sort=-v:refname | head -1); \
 	if [ -n "$$tag" ]; then echo "HEAD is already tagged $$tag; pushing it"; else \
@@ -38,7 +30,7 @@ serve: dist ## Serve dist/ on http://localhost:8000
 	python3 -m http.server 8000 -d $(DIST)
 
 clean:   ## Remove build output
-	rm -rf $(DIST) mackaysoftware*.tar.gz SHA256SUMS
+	rm -rf $(DIST)
 
 check-clean:
 	@git diff-index --quiet HEAD -- || { echo "Uncommitted changes. Commit or stash them first." >&2; exit 1; }
