@@ -5,9 +5,10 @@ Landing page for Mackay Software Limited. Static HTML, no dependencies, no frame
 ## Build
 
 ```sh
-npm run build     # content.json -> index.html
-npm run serve     # build, then serve on http://localhost:8000
+make build     # content.json -> index.html
+make serve     # build dist/, serve it on http://localhost:8000
+make package   # dist/ -> mackaysoftware-<version>.tar.gz
 ```
 
-`build.mjs` needs nothing but Node. Commit the generated `index.html` so the
-repository can be deployed as static files with no build step on the host.
+`build.mjs` needs nothing but Node. Deploy the contents of `dist/` (or the
+tarball) to any static host.
