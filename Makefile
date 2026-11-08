@@ -1,7 +1,8 @@
 .PHONY: help build dist package release serve clean check-clean
 
 DIST    := dist
-VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
+# Newest tag on HEAD if there is one, otherwise the short commit hash.
+VERSION ?= $(shell t=$$(git tag --points-at HEAD --sort=-v:refname | head -1); [ -n "$$t" ] && echo $$t || git rev-parse --short HEAD)
 FILES   := index.html styles.css logos mackay-design-system/tokens.css
 
 help:    ## List commands
@@ -23,8 +24,8 @@ package: check-clean dist ## Zip dist/ into a versioned tarball (needs a clean t
 release: check-clean ## Tag HEAD with a date version, then package it
 	@base=$$(date +%Y.%m.%d); tag=$$base; n=1; \
 	while git rev-parse -q --verify "refs/tags/$$tag" >/dev/null; do n=$$((n+1)); tag=$$base.$$n; done; \
-	git tag -a "$$tag" -m "Release $$tag" && echo "tagged $$tag"
-	@$(MAKE) --no-print-directory package
+	git tag -a "$$tag" -m "Release $$tag" && echo "tagged $$tag" && \
+	$(MAKE) --no-print-directory package VERSION=$$tag
 
 serve: dist ## Serve dist/ on http://localhost:8000
 	python3 -m http.server 8000 -d $(DIST)

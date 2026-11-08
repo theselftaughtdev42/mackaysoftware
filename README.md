@@ -11,7 +11,7 @@ make package   # dist/ -> mackaysoftware-<version>.tar.gz
 make release   # tag HEAD with today's date (e.g. 2026.11.08), then package
 ```
 
-Packages are named after `git describe`: the release tag if HEAD has one,
+Packages are named after the newest release tag if HEAD has one,
 otherwise the commit hash. Both refuse to run with uncommitted changes.
 `index.html` is generated and not tracked.
 
