@@ -173,7 +173,7 @@ function renderHead({ site, brand }) {
     `<meta name="viewport" content="width=device-width, initial-scale=1">`,
     `<title${live(site.title)}>${attr(site.title)}</title>`,
     `<meta name="description" content="${attr(site.description)}"${live(site.description, 'content')}>`,
-    `<link rel="icon" href="${attr(brand.mark)}" type="image/svg+xml">`,
+    `<link rel="icon" href="${attr(brand.favicon)}" type="image/svg+xml">`,
     ...themeMeta(site),
     `<link rel="stylesheet" href="mackay-design-system/tokens.css">`,
     `<link rel="stylesheet" href="styles.css">`
